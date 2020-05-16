@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-11222381-3"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-11222381-3");
+gtag("config", "UA-49880327-6");
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#00ADD8">
+<meta name="description" content="Go is an open source programming language that makes it easy to build simple, reliable, and efficient software.">
+<title>Go&#39;s Declaration Syntax - The Go Blog</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:600|Roboto:400,700|Source+Code+Pro">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Product+Sans&text=Supported%20by%20Google&display=swap">
+<link rel="stylesheet" href="/lib/godoc/style.css">
+<link rel="stylesheet" href="/fonts.css">
+<link rel="alternate" type="application/atom+xml" title="blog.golang.org - Atom Feed" href="https://blog.golang.org/feed.atom" />
+<script>window.initFuncs = [];</script>
+<style>
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+  }
+  h2 {  
+    background: none;
+    clear: none;
+    font-size: 1.5em;
+    font-weight: 600;
+    line-height: inherit;
+    overflow-wrap: normal;
+    padding: 0;
+  }
+  @media print {
+    #sidebar { display: none; }
+  }
+  #sidebar {
+    float: right;
+    padding-left: 20px;
+    width: 40%;
+    max-width: 250px;
+    background: #f8f9f9;
+    margin: 20px 0 20px 20px;
+  }
+  #sidebar h2 {
+    font-size: 1rem;
+  }
+  #sidebar ul {
+    padding: 0;
+  }
+  #sidebar li {
+    list-style-type: none;
+  }
+  #content .author {
+    font-style: italic;
+  }
+  #content .article {
+    margin-bottom: 50px;
+  }
+  #content .date {
+    color: #6e7072;
+  }
+  #content .tags {
+    color: #999;
+    font-size: smaller;
+  }
+  #content .iframe, #content .image {
+    margin: 20px;
+  }
+  #content .title {
+    margin: 20px 0;
+  }
+  #content img {
+    max-width: 100%;
+  }
+  .article[data-slug='/go-fonts'] {
+    font-family: Go, sans-serif;
+  }
+  .article[data-slug='/go-fonts'] pre,
+  .article[data-slug='/go-fonts'] code {
+    font-family: 'Go Mono', monospace;
+  }
+</style>
+<body class="Site">
+  <header class="Header js-header">
+    <nav class="Header-nav">
+      <a href="https://golang.org"><img class="Header-logo" src="/lib/godoc/images/go-logo-blue.svg" alt="Go"></a>
+      <button class="Header-menuButton js-headerMenuButton" aria-label="Main menu" aria-expanded="false">
+        <div class="Header-menuButtonInner">
+      </button>
+      <ul class="Header-menu">
+        <li class="Header-menuItem"><a href="https://golang.org/doc/">Documents</a></li>
+        <li class="Header-menuItem"><a href="https://golang.org/pkg/">Packages</a></li>
+        <li class="Header-menuItem"><a href="https://golang.org/project/">The Project</a></li>
+        <li class="Header-menuItem"><a href="https://golang.org/help/">Help</a></li>
+        <li class="Header-menuItem"><a href="/">Blog</a></li>
+        <li class="Header-menuItem"><a href="https://play.golang.org/">Play</a></li>
+        <li class="Header-menuItem Header-menuItem--search">
+          <form class="HeaderSearch" role="search" action="https://golang.org/search">
+            <input class="HeaderSearch-input"
+                  type="search"
+                  name="q"
+                  placeholder="Search"
+                  aria-label="Search"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  autocorrect="off"
+                  spellcheck="false"
+                  required>
+            <button class="HeaderSearch-submit" aria-label="Search">
+              <svg class="HeaderSearch-icon" width="24" height="24" viewBox="0 0 24 24"><title>Search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+            </button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="Site-content" id="page">
+    <div class="container">
+      <aside id="sidebar">
+        
+          
+            <h2>Next article</h2>
+            <p><a href="/codelab-share">Share Memory By Communicating</a></p>
+          
+
+          
+            <h2>Previous article</h2>
+            <p><a href="/io2010">Go Programming session video from Google I/O</a></p>
+          
+        
+
+        <h2>Links</h2>
+        <ul>
+          <li><a href='//golang.org/'>golang.org</a></li>
+          <li><a href='//golang.org/doc/install.html'>Install Go</a></li>
+          <li><a href='//tour.golang.org/'>A Tour of Go</a></li>
+          <li><a href='//golang.org/doc/'>Go Documentation</a></li>
+          <li><a href='//groups.google.com/group/golang-nuts'>Go Mailing List</a></li>
+          <li><a href='//twitter.com/golang'>Go on Twitter</a></li>
+        </ul>
+
+        <p><a href="/index">Blog index</a></p>
+      </aside>
+
+      <div id="content">
+        <h1><a href="/">The Go Blog</a></h1>
+        
+	
+  <div class="article" data-slug="/declaration-syntax">
+    <h2 class="title"><a href="/declaration-syntax">Go&#39;s Declaration Syntax</a></h2>
+    <p class="author">
+    Rob Pike<br>
+    7 July 2010
+    </p>
+    
+  
+  
+    
+      
+  <h4 id="TOC_1.">Introduction</h4>
+  <p>Newcomers to Go wonder why the declaration syntax is different from the
+tradition established in the C family.
+In this post we'll compare the two approaches and explain why Go's declarations look as they do.</p>
+
+
+    
+      
+  <h4 id="TOC_2.">C syntax</h4>
+  <p>First, let's talk about C syntax. C took an unusual and clever approach
+to declaration syntax.
+Instead of describing the types with special syntax,
+one writes an expression involving the item being declared,
+and states what type that expression will have. Thus</p>
+<pre><code>int x;
+</code></pre>
+<p>declares x to be an int: the expression 'x' will have type int.
+In general, to figure out how to write the type of a new variable,
+write an expression involving that variable that evaluates to a basic type,
+then put the basic type on the left and the expression on the right.</p>
+<p>Thus, the declarations</p>
+<pre><code>int *p;
+int a[3];
+</code></pre>
+<p>state that p is a pointer to int because '*p' has type int,
+and that a is an array of ints because a[3] (ignoring the particular index value,
+which is punned to be the size of the array) has type int.</p>
+<p>What about functions? Originally, C's function declarations wrote the types
+of the arguments outside the parens, like this:</p>
+<pre><code>int main(argc, argv)
+    int argc;
+    char *argv[];
+{ /* ... */ }
+</code></pre>
+<p>Again, we see that main is a function because the expression main(argc,
+argv) returns an int.
+In modern notation we'd write</p>
+<pre><code>int main(int argc, char *argv[]) { /* ... */ }
+</code></pre>
+<p>but the basic structure is the same.</p>
+<p>This is a clever syntactic idea that works well for simple types but can get confusing fast.
+The famous example is declaring a function pointer.
+Follow the rules and you get this:</p>
+<pre><code>int (*fp)(int a, int b);
+</code></pre>
+<p>Here, fp is a pointer to a function because if you write the expression (*fp)(a,
+b) you'll call a function that returns int.
+What if one of fp's arguments is itself a function?</p>
+<pre><code>int (*fp)(int (*ff)(int x, int y), int b)
+</code></pre>
+<p>That's starting to get hard to read.</p>
+<p>Of course, we can leave out the name of the parameters when we declare a function, so main can be declared</p>
+<pre><code>int main(int, char *[])
+</code></pre>
+<p>Recall that argv is declared like this,</p>
+<pre><code>char *argv[]
+</code></pre>
+<p>so you drop the name from the middle of its declaration to construct its type.
+It's not obvious, though, that you declare something of type char *[] by
+putting its name in the middle.</p>
+<p>And look what happens to fp's declaration if you don't name the parameters:</p>
+<pre><code>int (*fp)(int (*)(int, int), int)
+</code></pre>
+<p>Not only is it not obvious where to put the name inside</p>
+<pre><code>int (*)(int, int)
+</code></pre>
+<p>it's not exactly clear that it's a function pointer declaration at all.
+And what if the return type is a function pointer?</p>
+<pre><code>int (*(*fp)(int (*)(int, int), int))(int, int)
+</code></pre>
+<p>It's hard even to see that this declaration is about fp.</p>
+<p>You can construct more elaborate examples but these should illustrate some
+of the difficulties that C's declaration syntax can introduce.</p>
+<p>There's one more point that needs to be made, though.
+Because type and declaration syntax are the same,
+it can be difficult to parse expressions with types in the middle.
+This is why, for instance, C casts always parenthesize the type, as in</p>
+<pre><code>(int)M_PI</code></pre>
+
+
+    
+      
+  <h4 id="TOC_3.">Go syntax</h4>
+  <p>Languages outside the C family usually use a distinct type syntax in declarations.
+Although it's a separate point, the name usually comes first,
+often followed by a colon.
+Thus our examples above become something like (in a fictional but illustrative language)</p>
+<pre><code>x: int
+p: pointer to int
+a: array[3] of int
+</code></pre>
+<p>These declarations are clear, if verbose - you just read them left to right.
+Go takes its cue from here, but in the interests of brevity it drops the
+colon and removes some of the keywords:</p>
+<pre><code>x int
+p *int
+a [3]int
+</code></pre>
+<p>There is no direct correspondence between the look of [3]int and how to
+use a in an expression.
+(We'll come back to pointers in the next section.) You gain clarity at the
+cost of a separate syntax.</p>
+<p>Now consider functions. Let's transcribe the declaration for main as it would read in Go,
+although the real main function in Go takes no arguments:</p>
+<pre><code>func main(argc int, argv []string) int
+</code></pre>
+<p>Superficially that's not much different from C,
+other than the change from <code>char</code> arrays to strings,
+but it reads well from left to right:</p>
+<p>function main takes an int and a slice of strings and returns an int.</p>
+<p>Drop the parameter names and it's just as clear - they're always first so there's no confusion.</p>
+<pre><code>func main(int, []string) int
+</code></pre>
+<p>One merit of this left-to-right style is how well it works as the types
+become more complex.
+Here's a declaration of a function variable (analogous to a function pointer in C):</p>
+<pre><code>f func(func(int,int) int, int) int
+</code></pre>
+<p>Or if f returns a function:</p>
+<pre><code>f func(func(int,int) int, int) func(int, int) int
+</code></pre>
+<p>It still reads clearly, from left to right,
+and it's always obvious which name is being declared - the name comes first.</p>
+<p>The distinction between type and expression syntax makes it easy to write and invoke closures in Go:</p>
+<pre><code>sum := func(a, b int) int { return a+b } (3, 4)</code></pre>
+
+
+    
+      
+  <h4 id="TOC_4.">Pointers</h4>
+  <p>Pointers are the exception that proves the rule.
+Notice that in arrays and slices, for instance,
+Go's type syntax puts the brackets on the left of the type but the expression
+syntax puts them on the right of the expression:</p>
+<pre><code>var a []int
+x = a[1]
+</code></pre>
+<p>For familiarity, Go's pointers use the * notation from C,
+but we could not bring ourselves to make a similar reversal for pointer types.
+Thus pointers work like this</p>
+<pre><code>var p *int
+x = *p
+</code></pre>
+<p>We couldn't say</p>
+<pre><code>var p *int
+x = p*
+</code></pre>
+<p>because that postfix * would conflate with multiplication. We could have used the Pascal ^, for example:</p>
+<pre><code>var p ^int
+x = p^
+</code></pre>
+<p>and perhaps we should have (and chosen another operator for xor),
+because the prefix asterisk on both types and expressions complicates things
+in a number of ways.
+For instance, although one can write</p>
+<pre><code>[]int(&quot;hi&quot;)
+</code></pre>
+<p>as a conversion, one must parenthesize the type if it starts with a *:</p>
+<pre><code>(*int)(nil)
+</code></pre>
+<p>Had we been willing to give up * as pointer syntax, those parentheses would be unnecessary.</p>
+<p>So Go's pointer syntax is tied to the familiar C form,
+but those ties mean that we cannot break completely from using parentheses
+to disambiguate types and expressions in the grammar.</p>
+<p>Overall, though, we believe Go's type syntax is easier to understand than C's, especially when things get complicated.</p>
+
+
+    
+      
+  <h4 id="TOC_5.">Notes</h4>
+  <p>Go's declarations read left to right. It's been pointed out that C's read in a spiral!
+See <a href="http://c-faq.com/decl/spiral.anderson.html" target="_blank" rel="noopener"> The &quot;Clockwise/Spiral Rule&quot;</a> by David Anderson.</p>
+
+
+    
+  
+
+  </div>
+
+	
+		<h2>Related articles</h2>
+		<ul>
+		
+			<li><a href="/two-recent-go-articles">Two recent Go articles</a></li>
+		
+			<li><a href="/two-recent-go-talks">Two recent Go talks</a></li>
+		
+			<li><a href="/io2012-videos">Go videos from Google I/O 2012</a></li>
+		
+		</ul>
+	
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="Footer">
+      <img class="Footer-gopher" src="/lib/godoc/images/footer-gopher.jpg" alt="The Go Gopher">
+      <ul class="Footer-links">
+        <li class="Footer-link"><a href="https://golang.org/doc/copyright.html">Copyright</a></li>
+        <li class="Footer-link"><a href="https://golang.org/doc/tos.html">Terms of Service</a></li>
+        <li class="Footer-link"><a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a></li>
+        <li class="Footer-link"><a href="http://golang.org/issues/new?title=x/blog:" target="_blank" rel="noopener">Report issue</a></li>
+      </ul>
+      <a class="Footer-supportedBy" href="https://google.com">Supported by Google</a>
+    </div>
+  </footer>
+
+  <script src="/lib/godoc/jquery.js"></script>
+  <script src="/lib/godoc/playground.js"></script>
+  <script src="/lib/godoc/play.js"></script>
+  <script src="/lib/godoc/godocs.js"></script>
+  <script>
+  $(function() {
+    
+    $('.playground > pre.numbers, .code > pre.numbers').each(function() {
+      var $spans = $(this).find('> span');
+
+      
+      var max = 0;
+      $spans.each(function() {
+        var n = $(this).attr('num')*1;
+        if (n > max) max = n;
+      });
+      var width = 2;
+      while (max > 10) {
+        max = max / 10;
+        width++;
+      }
+
+      
+      $spans.each(function() {
+        var n = $(this).attr('num')+' ';
+        while (n.length < width) n = ' '+n;
+        $('<span class="number">').text(n).insertBefore(this);
+      });
+    });
+
+    initPlayground(new HTTPTransport());
+  });
+  </script>

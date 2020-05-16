@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-11222381-3"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-11222381-3");
+gtag("config", "UA-49880327-6");
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#00ADD8">
+<meta name="description" content="Go is an open source programming language that makes it easy to build simple, reliable, and efficient software.">
+<title>JSON and Go - The Go Blog</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:600|Roboto:400,700|Source+Code+Pro">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Product+Sans&text=Supported%20by%20Google&display=swap">
+<link rel="stylesheet" href="/lib/godoc/style.css">
+<link rel="stylesheet" href="/fonts.css">
+<link rel="alternate" type="application/atom+xml" title="blog.golang.org - Atom Feed" href="https://blog.golang.org/feed.atom" />
+<script>window.initFuncs = [];</script>
+<style>
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+  }
+  h2 {  
+    background: none;
+    clear: none;
+    font-size: 1.5em;
+    font-weight: 600;
+    line-height: inherit;
+    overflow-wrap: normal;
+    padding: 0;
+  }
+  @media print {
+    #sidebar { display: none; }
+  }
+  #sidebar {
+    float: right;
+    padding-left: 20px;
+    width: 40%;
+    max-width: 250px;
+    background: #f8f9f9;
+    margin: 20px 0 20px 20px;
+  }
+  #sidebar h2 {
+    font-size: 1rem;
+  }
+  #sidebar ul {
+    padding: 0;
+  }
+  #sidebar li {
+    list-style-type: none;
+  }
+  #content .author {
+    font-style: italic;
+  }
+  #content .article {
+    margin-bottom: 50px;
+  }
+  #content .date {
+    color: #6e7072;
+  }
+  #content .tags {
+    color: #999;
+    font-size: smaller;
+  }
+  #content .iframe, #content .image {
+    margin: 20px;
+  }
+  #content .title {
+    margin: 20px 0;
+  }
+  #content img {
+    max-width: 100%;
+  }
+  .article[data-slug='/go-fonts'] {
+    font-family: Go, sans-serif;
+  }
+  .article[data-slug='/go-fonts'] pre,
+  .article[data-slug='/go-fonts'] code {
+    font-family: 'Go Mono', monospace;
+  }
+</style>
+<body class="Site">
+  <header class="Header js-header">
+    <nav class="Header-nav">
+      <a href="https://golang.org"><img class="Header-logo" src="/lib/godoc/images/go-logo-blue.svg" alt="Go"></a>
+      <button class="Header-menuButton js-headerMenuButton" aria-label="Main menu" aria-expanded="false">
+        <div class="Header-menuButtonInner">
+      </button>
+      <ul class="Header-menu">
+        <li class="Header-menuItem"><a href="https://golang.org/doc/">Documents</a></li>
+        <li class="Header-menuItem"><a href="https://golang.org/pkg/">Packages</a></li>
+        <li class="Header-menuItem"><a href="https://golang.org/project/">The Project</a></li>
+        <li class="Header-menuItem"><a href="https://golang.org/help/">Help</a></li>
+        <li class="Header-menuItem"><a href="/">Blog</a></li>
+        <li class="Header-menuItem"><a href="https://play.golang.org/">Play</a></li>
+        <li class="Header-menuItem Header-menuItem--search">
+          <form class="HeaderSearch" role="search" action="https://golang.org/search">
+            <input class="HeaderSearch-input"
+                  type="search"
+                  name="q"
+                  placeholder="Search"
+                  aria-label="Search"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  autocorrect="off"
+                  spellcheck="false"
+                  required>
+            <button class="HeaderSearch-submit" aria-label="Search">
+              <svg class="HeaderSearch-icon" width="24" height="24" viewBox="0 0 24 24"><title>Search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+            </button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="Site-content" id="page">
+    <div class="container">
+      <aside id="sidebar">
+        
+          
+            <h2>Next article</h2>
+            <p><a href="/stable-releases">Go becomes more stable</a></p>
+          
+
+          
+            <h2>Previous article</h2>
+            <p><a href="/slices-intro">Go Slices: usage and internals</a></p>
+          
+        
+
+        <h2>Links</h2>
+        <ul>
+          <li><a href='//golang.org/'>golang.org</a></li>
+          <li><a href='//golang.org/doc/install.html'>Install Go</a></li>
+          <li><a href='//tour.golang.org/'>A Tour of Go</a></li>
+          <li><a href='//golang.org/doc/'>Go Documentation</a></li>
+          <li><a href='//groups.google.com/group/golang-nuts'>Go Mailing List</a></li>
+          <li><a href='//twitter.com/golang'>Go on Twitter</a></li>
+        </ul>
+
+        <p><a href="/index">Blog index</a></p>
+      </aside>
+
+      <div id="content">
+        <h1><a href="/">The Go Blog</a></h1>
+        
+	
+  <div class="article" data-slug="/json">
+    <h2 class="title"><a href="/json">JSON and Go</a></h2>
+    <p class="author">
+    Andrew Gerrand<br>
+    25 January 2011
+    </p>
+    
+  
+  
+    
+      
+  <h4 id="TOC_1.">Introduction</h4>
+  <p>JSON (JavaScript Object Notation) is a simple data interchange format.
+Syntactically it resembles the objects and lists of JavaScript.
+It is most commonly used for communication between web back-ends and JavaScript
+programs running in the browser,
+but it is used in many other places, too.
+Its home page, <a href="http://json.org" target="_blank" rel="noopener">json.org</a>,
+provides a wonderfully clear and concise definition of the standard.</p>
+<p>With the <a href="https://golang.org/pkg/encoding/json/" target="_blank" rel="noopener">json package</a> it's a
+snap to read and write JSON data from your Go programs.</p>
+
+
+    
+      
+  <h4 id="TOC_2.">Encoding</h4>
+  <p>To encode JSON data we use the <a href="https://golang.org/pkg/encoding/json/#Marshal" target="_blank" rel="noopener"><code>Marshal</code></a> function.</p>
+<pre><code>func Marshal(v interface{}) ([]byte, error)
+</code></pre>
+<p>Given the Go data structure, <code>Message</code>,</p>
+<pre><code>type Message struct {
+    Name string
+    Body string
+    Time int64
+}
+</code></pre>
+<p>and an instance of <code>Message</code></p>
+<pre><code>m := Message{&quot;Alice&quot;, &quot;Hello&quot;, 1294706395881547000}
+</code></pre>
+<p>we can marshal a JSON-encoded version of m using <code>json.Marshal</code>:</p>
+<pre><code>b, err := json.Marshal(m)
+</code></pre>
+<p>If all is well, <code>err</code> will be <code>nil</code> and <code>b</code> will be a <code>[]byte</code> containing this JSON data:</p>
+<pre><code>b == []byte(`{&quot;Name&quot;:&quot;Alice&quot;,&quot;Body&quot;:&quot;Hello&quot;,&quot;Time&quot;:1294706395881547000}`)
+</code></pre>
+<p>Only data structures that can be represented as valid JSON will be encoded:</p>
+<ul>
+<li>
+<p>JSON objects only support strings as keys;
+to encode a Go map type it must be of the form <code>map[string]T</code> (where <code>T</code>
+is any Go type supported by the json package).</p>
+</li>
+<li>
+<p>Channel, complex, and function types cannot be encoded.</p>
+</li>
+<li>
+<p>Cyclic data structures are not supported; they will cause <code>Marshal</code> to go into an infinite loop.</p>
+</li>
+<li>
+<p>Pointers will be encoded as the values they point to (or 'null' if the pointer is <code>nil</code>).</p>
+</li>
+</ul>
+<p>The json package only accesses the exported fields of struct types (those
+that begin with an uppercase letter).
+Therefore only the the exported fields of a struct will be present in the JSON output.</p>
+
+
+    
+      
+  <h4 id="TOC_3.">Decoding</h4>
+  <p>To decode JSON data we use the <a href="https://golang.org/pkg/encoding/json/#Unmarshal" target="_blank" rel="noopener"><code>Unmarshal</code></a> function.</p>
+<pre><code>func Unmarshal(data []byte, v interface{}) error
+</code></pre>
+<p>We must first create a place where the decoded data will be stored</p>
+<pre><code>var m Message
+</code></pre>
+<p>and call <code>json.Unmarshal</code>, passing it a <code>[]byte</code> of JSON data and a pointer to <code>m</code></p>
+<pre><code>err := json.Unmarshal(b, &amp;m)
+</code></pre>
+<p>If <code>b</code> contains valid JSON that fits in <code>m</code>,
+after the call <code>err</code> will be <code>nil</code> and the data from <code>b</code> will have been
+stored in the struct <code>m</code>,
+as if by an assignment like:</p>
+<pre><code>m = Message{
+    Name: &quot;Alice&quot;,
+    Body: &quot;Hello&quot;,
+    Time: 1294706395881547000,
+}
+</code></pre>
+<p>How does <code>Unmarshal</code> identify the fields in which to store the decoded data?
+For a given JSON key <code>&quot;Foo&quot;</code>,
+<code>Unmarshal</code> will look through the destination struct's fields to find (in
+order of preference):</p>
+<ul>
+<li>
+<p>An exported field with a tag of <code>&quot;Foo&quot;</code> (see the <a href="https://golang.org/ref/spec#Struct_types" target="_blank" rel="noopener">Go spec</a>
+for more on struct tags),</p>
+</li>
+<li>
+<p>An exported field named <code>&quot;Foo&quot;</code>, or</p>
+</li>
+<li>
+<p>An exported field named <code>&quot;FOO&quot;</code> or <code>&quot;FoO&quot;</code> or some other case-insensitive match of <code>&quot;Foo&quot;</code>.</p>
+</li>
+</ul>
+<p>What happens when the structure of the JSON data doesn't exactly match the Go type?</p>
+<pre><code>b := []byte(`{&quot;Name&quot;:&quot;Bob&quot;,&quot;Food&quot;:&quot;Pickle&quot;}`)
+var m Message
+err := json.Unmarshal(b, &amp;m)
+</code></pre>
+<p><code>Unmarshal</code> will decode only the fields that it can find in the destination type.
+In this case, only the Name field of m will be populated,
+and the Food field will be ignored.
+This behavior is particularly useful when you wish to pick only a few specific
+fields out of a large JSON blob.
+It also means that any unexported fields in the destination struct will
+be unaffected by <code>Unmarshal</code>.</p>
+<p>But what if you don't know the structure of your JSON data beforehand?</p>
+
+
+    
+      
+  <h4 id="TOC_4.">Generic JSON with interface{}</h4>
+  <p>The <code>interface{}</code> (empty interface) type describes an interface with zero methods.
+Every Go type implements at least zero methods and therefore satisfies the empty interface.</p>
+<p>The empty interface serves as a general container type:</p>
+<pre><code>var i interface{}
+i = &quot;a string&quot;
+i = 2011
+i = 2.777
+</code></pre>
+<p>A type assertion accesses the underlying concrete type:</p>
+<pre><code>r := i.(float64)
+fmt.Println(&quot;the circle's area&quot;, math.Pi*r*r)
+</code></pre>
+<p>Or, if the underlying type is unknown, a type switch determines the type:</p>
+<pre><code>switch v := i.(type) {
+case int:
+    fmt.Println(&quot;twice i is&quot;, v*2)
+case float64:
+    fmt.Println(&quot;the reciprocal of i is&quot;, 1/v)
+case string:
+    h := len(v) / 2
+    fmt.Println(&quot;i swapped by halves is&quot;, v[h:]+v[:h])
+default:
+    // i isn't one of the types above
+}
+</code></pre>
+<p>The json package uses <code>map[string]interface{}</code> and
+<code>[]interface{}</code> values to store arbitrary JSON objects and arrays;
+it will happily unmarshal any valid JSON blob into a plain
+<code>interface{}</code> value.  The default concrete Go types are:</p>
+<ul>
+<li>
+<p><code>bool</code> for JSON booleans,</p>
+</li>
+<li>
+<p><code>float64</code> for JSON numbers,</p>
+</li>
+<li>
+<p><code>string</code> for JSON strings, and</p>
+</li>
+<li>
+<p><code>nil</code> for JSON null.</p>
+</li>
+</ul>
+
+
+    
+      
+  <h4 id="TOC_5.">Decoding arbitrary data</h4>
+  <p>Consider this JSON data, stored in the variable <code>b</code>:</p>
+<pre><code>b := []byte(`{&quot;Name&quot;:&quot;Wednesday&quot;,&quot;Age&quot;:6,&quot;Parents&quot;:[&quot;Gomez&quot;,&quot;Morticia&quot;]}`)
+</code></pre>
+<p>Without knowing this data's structure, we can decode it into an <code>interface{}</code> value with <code>Unmarshal</code>:</p>
+<pre><code>var f interface{}
+err := json.Unmarshal(b, &amp;f)
+</code></pre>
+<p>At this point the Go value in <code>f</code> would be a map whose keys are strings
+and whose values are themselves stored as empty interface values:</p>
+<pre><code>f = map[string]interface{}{
+    &quot;Name&quot;: &quot;Wednesday&quot;,
+    &quot;Age&quot;:  6,
+    &quot;Parents&quot;: []interface{}{
+        &quot;Gomez&quot;,
+        &quot;Morticia&quot;,
+    },
+}
+</code></pre>
+<p>To access this data we can use a type assertion to access <code>f</code>'s underlying <code>map[string]interface{}</code>:</p>
+<pre><code>m := f.(map[string]interface{})
+</code></pre>
+<p>We can then iterate through the map with a range statement and use a type
+switch to access its values as their concrete types:</p>
+<pre><code>for k, v := range m {
+    switch vv := v.(type) {
+    case string:
+        fmt.Println(k, &quot;is string&quot;, vv)
+    case float64:
+        fmt.Println(k, &quot;is float64&quot;, vv)
+    case []interface{}:
+        fmt.Println(k, &quot;is an array:&quot;)
+        for i, u := range vv {
+            fmt.Println(i, u)
+        }
+    default:
+        fmt.Println(k, &quot;is of a type I don't know how to handle&quot;)
+    }
+}
+</code></pre>
+<p>In this way you can work with unknown JSON data while still enjoying the benefits of type safety.</p>
+
+
+    
+      
+  <h4 id="TOC_6.">Reference Types</h4>
+  <p>Let's define a Go type to contain the data from the previous example:</p>
+<pre><code>type FamilyMember struct {
+    Name    string
+    Age     int
+    Parents []string
+}
+
+    var m FamilyMember
+    err := json.Unmarshal(b, &amp;m)
+</code></pre>
+<p>Unmarshaling that data into a <code>FamilyMember</code> value works as expected,
+but if we look closely we can see a remarkable thing has happened.
+With the var statement we allocated a <code>FamilyMember</code> struct,
+and then provided a pointer to that value to <code>Unmarshal</code>,
+but at that time the <code>Parents</code> field was a <code>nil</code> slice value.
+To populate the <code>Parents</code> field, <code>Unmarshal</code> allocated a new slice behind the scenes.
+This is typical of how <code>Unmarshal</code> works with the supported reference types
+(pointers, slices, and maps).</p>
+<p>Consider unmarshaling into this data structure:</p>
+<pre><code>type Foo struct {
+    Bar *Bar
+}
+</code></pre>
+<p>If there were a <code>Bar</code> field in the JSON object,
+<code>Unmarshal</code> would allocate a new <code>Bar</code> and populate it.
+If not, <code>Bar</code> would be left as a <code>nil</code> pointer.</p>
+<p>From this a useful pattern arises: if you have an application that receives
+a few distinct message types,
+you might define &quot;receiver&quot; structure like</p>
+<pre><code>type IncomingMessage struct {
+    Cmd *Command
+    Msg *Message
+}
+</code></pre>
+<p>and the sending party can populate the <code>Cmd</code> field and/or the <code>Msg</code> field
+of the top-level JSON object,
+depending on the type of message they want to communicate.
+<code>Unmarshal</code>, when decoding the JSON into an <code>IncomingMessage</code> struct,
+will only allocate the data structures present in the JSON data.
+To know which messages to process, the programmer need simply test that
+either <code>Cmd</code> or <code>Msg</code> is not <code>nil</code>.</p>
+
+
+    
+      
+  <h4 id="TOC_7.">Streaming Encoders and Decoders</h4>
+  <p>The json package provides <code>Decoder</code> and <code>Encoder</code> types to support the common
+operation of reading and writing streams of JSON data.
+The <code>NewDecoder</code> and <code>NewEncoder</code> functions wrap the <a href="https://golang.org/pkg/io/#Reader" target="_blank" rel="noopener"><code>io.Reader</code></a>
+and <a href="https://golang.org/pkg/io/#Writer" target="_blank" rel="noopener"><code>io.Writer</code></a> interface types.</p>
+<pre><code>func NewDecoder(r io.Reader) *Decoder
+func NewEncoder(w io.Writer) *Encoder
+</code></pre>
+<p>Here's an example program that reads a series of JSON objects from standard input,
+removes all but the <code>Name</code> field from each object,
+and then writes the objects to standard output:</p>
+<pre><code>package main
+
+import (
+    &quot;encoding/json&quot;
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+func main() {
+    dec := json.NewDecoder(os.Stdin)
+    enc := json.NewEncoder(os.Stdout)
+    for {
+        var v map[string]interface{}
+        if err := dec.Decode(&amp;v); err != nil {
+            log.Println(err)
+            return
+        }
+        for k := range v {
+            if k != &quot;Name&quot; {
+                delete(v, k)
+            }
+        }
+        if err := enc.Encode(&amp;v); err != nil {
+            log.Println(err)
+        }
+    }
+}
+</code></pre>
+<p>Due to the ubiquity of Readers and Writers,
+these <code>Encoder</code> and <code>Decoder</code> types can be used in a broad range of scenarios,
+such as reading and writing to HTTP connections,
+WebSockets, or files.</p>
+
+
+    
+      
+  <h4 id="TOC_8.">References</h4>
+  <p>For more information see the <a href="https://golang.org/pkg/encoding/json/" target="_blank" rel="noopener">json package documentation</a>.
+For an example usage of json see the source files of the <a href="https://golang.org/pkg/net/rpc/jsonrpc/" target="_blank" rel="noopener">jsonrpc package</a>.</p>
+
+
+    
+  
+
+  </div>
+
+	
+		<h2>Related articles</h2>
+		<ul>
+		
+			<li><a href="/protobuf-apiv2">A new Go API for Protocol Buffers</a></li>
+		
+			<li><a href="/go1.13-errors">Working with Errors in Go 1.13</a></li>
+		
+			<li><a href="/debug-opt">Debugging what you deploy in Go 1.12</a></li>
+		
+			<li><a href="/h2push">HTTP/2 Server Push</a></li>
+		
+			<li><a href="/http-tracing">Introducing HTTP Tracing</a></li>
+		
+			<li><a href="/generate">Generating code</a></li>
+		
+			<li><a href="/race-detector">Introducing the Go Race Detector</a></li>
+		
+			<li><a href="/maps">Go maps in action</a></li>
+		
+			<li><a href="/gofmt">go fmt your code</a></li>
+		
+			<li><a href="/organizing-go-code">Organizing Go code</a></li>
+		
+			<li><a href="/debug-gdb">Debugging Go programs with the GNU Debugger</a></li>
+		
+			<li><a href="/image-draw">The Go image/draw package</a></li>
+		
+			<li><a href="/image">The Go image package</a></li>
+		
+			<li><a href="/laws-of-reflection">The Laws of Reflection</a></li>
+		
+			<li><a href="/error-handling-and-go">Error handling and Go</a></li>
+		
+			<li><a href="/functions-codewalk">First Class Functions in Go</a></li>
+		
+			<li><a href="/pprof">Profiling Go Programs</a></li>
+		
+			<li><a href="/gif-decoder">A GIF decoder: an exercise in Go interfaces</a></li>
+		
+			<li><a href="/introducing-gofix">Introducing Gofix</a></li>
+		
+			<li><a href="/godoc">Godoc: documenting Go code</a></li>
+		
+			<li><a href="/gob">Gobs of data</a></li>
+		
+			<li><a href="/cgo">C? Go? Cgo!</a></li>
+		
+			<li><a href="/slices-intro">Go Slices: usage and internals</a></li>
+		
+			<li><a href="/concurrency-timeouts">Go Concurrency Patterns: Timing out, moving on</a></li>
+		
+			<li><a href="/defer-panic-and-recover">Defer, Panic, and Recover</a></li>
+		
+			<li><a href="/codelab-share">Share Memory By Communicating</a></li>
+		
+			<li><a href="/json-rpc">JSON-RPC: a tale of interfaces</a></li>
+		
+		</ul>
+	
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="Footer">
+      <img class="Footer-gopher" src="/lib/godoc/images/footer-gopher.jpg" alt="The Go Gopher">
+      <ul class="Footer-links">
+        <li class="Footer-link"><a href="https://golang.org/doc/copyright.html">Copyright</a></li>
+        <li class="Footer-link"><a href="https://golang.org/doc/tos.html">Terms of Service</a></li>
+        <li class="Footer-link"><a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a></li>
+        <li class="Footer-link"><a href="http://golang.org/issues/new?title=x/blog:" target="_blank" rel="noopener">Report issue</a></li>
+      </ul>
+      <a class="Footer-supportedBy" href="https://google.com">Supported by Google</a>
+    </div>
+  </footer>
+
+  <script src="/lib/godoc/jquery.js"></script>
+  <script src="/lib/godoc/playground.js"></script>
+  <script src="/lib/godoc/play.js"></script>
+  <script src="/lib/godoc/godocs.js"></script>
+  <script>
+  $(function() {
+    
+    $('.playground > pre.numbers, .code > pre.numbers').each(function() {
+      var $spans = $(this).find('> span');
+
+      
+      var max = 0;
+      $spans.each(function() {
+        var n = $(this).attr('num')*1;
+        if (n > max) max = n;
+      });
+      var width = 2;
+      while (max > 10) {
+        max = max / 10;
+        width++;
+      }
+
+      
+      $spans.each(function() {
+        var n = $(this).attr('num')+' ';
+        while (n.length < width) n = ' '+n;
+        $('<span class="number">').text(n).insertBefore(this);
+      });
+    });
+
+    initPlayground(new HTTPTransport());
+  });
+  </script>

@@ -1,0 +1,194 @@
+ow do I write a for loop using Go programming language? How do I use golang for loop to repeat certain tasks? How do I set infinite loops using for statement on golang?
+
+A ‘for loop’ is a golang statement which allows code to be repeatedly executed. A for loop is classified as an iteration statement i.e. it is the repetition of a process within a go program. For example, you can run certain task or print message five times or read & process list of files using a for loop. Golang for loop is similar to but not the same asâ€”C’s for loop syntax.
+Advertisements
+go lang for loop syntax
+The basic syntax is:
+
+for init; condition; post { 
+  // run commands till condition is true
+}
+Infinite for loop syntax:
+
+for {
+   // I will run forever 
+}
+go lang for loop examples
+The following golang program print welcome message five times using a for loop. Create a file called for.go:
+
+// for.go : A simple for loop program written in golang 
+package main
+
+// get fmt package for Printf()
+import "fmt"
+
+// Our main()
+func main() {
+        // set a for loop
+        for i := 1;  i<=5; i++ {
+                fmt.Printf("Welcome %d times\n",i)
+        }
+}
+Save and close the file. Run it as follows:
+$ go run for.go
+
+Sample outputs:
+
+Welcome 1 times
+Welcome 2 times
+Welcome 3 times
+Welcome 4 times
+Welcome 5 times
+Here is another example to print sum of all digits using a for loop:
+
+// sum.go : golang for loop demo code 
+package main
+
+import "fmt"
+
+func main() {
+        sum := 0
+        for i := 1;  i<=20; i++ {
+                sum += i
+        }
+        fmt.Printf("Sum =  %d\n",sum)
+}
+Save and close the file. Run it as follows:
+$ go run sum.go
+
+Sample outputs:
+
+Sum =  210
+How do I use golang for as infinite loops?
+Infinite for loop can be created with empty expressions, such as:
+
+// forver-in-love.go : an infinite loop example 
+package main
+
+import "fmt"
+
+func main() {
+    for {
+        fmt.Println("I am in love with the Terminal (hit Ctrl+C to stop)")
+    }
+}
+In this example, read an integer (number) from keyboard and display message on screen:
+
+// for2.go : A modified version of for.go. This program use Scan() to read input from user
+package main
+
+import "fmt" 
+       
+func main() {
+	y := 0 
+        // Get number from user 
+	fmt.Printf("Enter a number : ")
+	fmt.Scan(&y)
+
+	for i := 1;  i<=y; i++ {	
+		fmt.Printf("Welcome %d times.\n",i)
+	}
+}
+Sample outputs:
+
+$ go run for2.go
+Enter a number : 3
+Welcome 1 times.
+Welcome 2 times.
+Welcome 3 times.
+How do I terminate a for loop using break keyword?
+You need to use the break keyword and the syntax is as follows:
+
+for .... {
+   if  condition  { break }
+}
+In this example, break out of for loop when i is 5:
+
+// 
+// forbreakdemo.go : Terminate a loop using break keyword 
+//
+package main
+// get fmt package for Printf()
+import "fmt"
+// Our main()
+func main() {
+        // set a for loop
+        for i := 1;  i<=10; i++ {
+                //break out of for loop when i greater than 5 
+		if i > 5 { break }
+                fmt.Printf("Welcome %d times\n",i)
+        }
+	fmt.Printf("Out of for loop...\n")
+}
+How do I go to the beginning of the for loop?
+You need to use the continue keyword and the syntax is as follows:
+
+for ... {
+    statement_1
+    if condition { continue }
+    statement_2
+}
+In this example, print message only if i is not 5:
+
+// forcontinuedemo.go : The continue keyword demo
+package main
+// get fmt package for Printf()
+import "fmt"
+// Our main()
+func main() {
+        // set a for loop
+        for i := 1;  i<=10; i++ {
+		// only print welcome message if i is not 5
+		if i != 5 { continue }
+                fmt.Printf("Welcome %d times\n",i)
+        }
+	fmt.Printf("Outof for loop...\n")
+}
+SHARE ON Facebook Twitter
+ADVERTISEMENTS
+Posted by: Vivek Gite
+The author is the creator of nixCraft and a seasoned sysadmin, DevOps engineer, and a trainer for the Linux operating system/Unix shell scripting. Get the latest tutorials on SysAdmin, Linux/Unix and open source topics via RSS/XML feed or weekly email newsletter.
+
+RELATED TUTORIALS
+
+Shell Script While Loop Examples
+
+Bash While Loop Examples
+
+Bash: Continue In a For / While Loop
+
+Bash Infinite Loop Examples
+
+HowTo: Skip Bash For Loop
+
+Python For Loop Examples
+
+Linux / UNIX: Bash Loop Forever
+
+Bash For Loop Examples
+
+KSH For Loop Examples
+
+HowTo: Unix For Loop 1 to 100 Numbers
+Your support makes a big difference:
+I have a small favor to ask. More people are reading the nixCraft. Many of you block advertising which is your right, and advertising revenues are not sufficient to cover my operating costs. So you can see why I need to ask for your help. The nixCraft takes a lot of my time and hard work to produce. If everyone who reads nixCraft, who likes it, helps fund it, my future would be more secure. You can donate as little as $1 to support nixCraft:
+
+Become a Supporter Make a contribution via Paypal/Bitcoin
+
+Comments 2 comment
+Deepsays:July 30, 2015 at 10:01 pm
+Very helpful examples… I was wondering if it is also possible to have 2 variables in a for loop in go.
+
+Something like for i,j := 0,0 ; i < len(a) ; i++, j– ??
+
+asunasays:November 13, 2015 at 11:38 pm
+you can use one variable for the loop, then use the change in your looping variable to calculate two new variables i*A and i(-1)*B
+
+    Still, have a question? Get help on our forum!
+
+Post navigation
+Previous FAQ:
+Previous post:Linux View Process Address Space
+Next FAQ:
+Next post:WordPress Add Shortcodes To Excerpts
+Tagged as: TagsEasy
