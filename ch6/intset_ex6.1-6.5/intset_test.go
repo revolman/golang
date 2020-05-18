@@ -1,6 +1,9 @@
 package intset
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 // TestAddHas ...
 func TestAddHas(t *testing.T) {
@@ -26,6 +29,26 @@ func TestAddHas(t *testing.T) {
 	if set.Has(-1) || set.Len() != 3 {
 		t.Errorf("Set cannot add negative numbers. %s should have 0, 1, 1024", set)
 	}
+}
+
+func TestAddAll(t *testing.T) {
+	set := new(IntSet)
+
+	set.AddAll(1)
+	if !set.Has(1) {
+		t.Errorf("Set %s should have 1", set)
+	}
+
+	set.AddAll(2, 1024)
+	if !set.Has(1) && !set.Has(2) && !set.Has(1024) {
+		t.Errorf("Set %s should have 1, 2, 1024", set)
+	}
+
+	set.AddAll(-1)
+	if set.Has(-1) || set.Len() != 3 {
+		t.Errorf("Set cannot add negative numbers. %s should have 1, 2, 1024", set)
+	}
+
 }
 
 // TestRemove ...
@@ -114,5 +137,57 @@ func TestClear(t *testing.T) {
 	set.Clear()
 	if set.Len() != 0 {
 		t.Errorf("Set len must be 0")
+	}
+}
+
+// TestCopy...
+func TestCopy(t *testing.T) {
+	set := new(IntSet)
+	set.Add(1)
+	set.Add(444)
+	set.Add(1024)
+
+	c := set.Copy()
+
+	if len(c.words) != len(set.words) {
+		t.Errorf("len(c) must be equal set len(set)")
+	}
+
+	if !reflect.DeepEqual(c, set) {
+		t.Errorf("c != set")
+	}
+
+}
+
+func TestUnionWith(t *testing.T) {
+	set := new(IntSet)
+	set.Add(1)
+	set.Add(64)
+
+	c := new(IntSet)
+	c.Add(65)
+	c.Add(129)
+
+	set.UnionWith(c)
+	l := set.Len()
+	if l != 4 {
+		t.Errorf("set len must be 4 not %d", l)
+	}
+
+	if len(set.words) != 3 {
+		t.Errorf("set must have 3 word, not %d", len(set.words))
+	}
+}
+
+func TestString(t *testing.T) {
+	set := new(IntSet)
+	set.Add(1)
+	set.Add(65)
+	set.Add(1024)
+
+	tStr := "{1 65 1024}"
+	oStr := set.String()
+	if oStr != tStr {
+		t.Errorf("strings must be equal")
 	}
 }
