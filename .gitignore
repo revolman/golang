@@ -8,6 +8,7 @@ proverki
 **/*.html
 **/*.htm
 **/*_test
+ch7/tablesort_v2
 **/golang.org
 **/*.mmdb
 **/__pycache__

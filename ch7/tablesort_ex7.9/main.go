@@ -60,5 +60,5 @@ func (app *App) tracklistHandler(w http.ResponseWriter, r *http.Request) {
 		app.ts.SortBy(sortBy)
 		sort.Sort(app.ts)
 	}
-	tracklist.Execute(w, app.tracks)
+	tracklist.Execute(w, app.tracks) // передать в шаблон структуру
 }
