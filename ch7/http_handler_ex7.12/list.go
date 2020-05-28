@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"net/http"
+	"os"
 )
 
 var productlist = template.Must(template.New("productList").Parse(`
@@ -32,4 +33,5 @@ var productlist = template.Must(template.New("productList").Parse(`
 // List это общая версия метода list. Выводит текущее состояние БД.
 func List(w http.ResponseWriter, db database) {
 	productlist.Execute(w, db)
+	os.File
 }
