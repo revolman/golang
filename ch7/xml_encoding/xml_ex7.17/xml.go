@@ -9,7 +9,7 @@ import (
 )
 
 type element struct {
-	name string
+	name []string
 	attr []attrib
 }
 
@@ -20,36 +20,33 @@ type attrib struct {
 
 // xml.go div id="page" class="wide"
 // подготовка входных данных
-func inputParse() []element {
-	var input []element
+func inputParse() element {
+	var input element
 
 	var attribute attrib
 	in := os.Args[1:]
 
 	for _, arg := range in {
-		var el element
-
 		if strings.Contains(arg, "=") {
 			q := strings.Split(arg, "=")
 			attribute.name = q[0]
 			attribute.value = q[1]
-			el.attr = append(el.attr, attribute)
+			input.attr = append(input.attr, attribute)
 			continue
 		}
-		el.name = arg
-		input = append(input, el)
+		input.name = append(input.name, arg)
 	}
 	return input
 }
 
 func main() {
 	in := inputParse()
-	for _, el := range in {
-		fmt.Printf("Элемент: %s\nАттрибуты: ", el.name)
-		for _, attr := range el.attr {
-			fmt.Printf("%s=%q ", attr.name, attr.value)
-		}
+	fmt.Printf("%v\n", in)
+	fmt.Printf("Список элементов: %s\nАттрибуты: ", in.name)
+	for _, attr := range in.attr {
+		fmt.Printf("%s=%q ", attr.name, attr.value)
 	}
+
 	fmt.Println("")
 	// }
 
