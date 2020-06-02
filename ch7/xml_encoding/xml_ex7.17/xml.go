@@ -8,51 +8,75 @@ import (
 	"strings"
 )
 
-type element struct {
-	name []string
-	attr []attrib
+// Element представляет имя элемента и его аттрибуты
+type Element struct {
+	name string
+	attr []Attribute
 }
 
-type attrib struct {
+// Attribute представляет аттрибут типа ключ - значение
+type Attribute struct {
 	name  string
 	value string
 }
 
-// xml.go div id="page" class="wide"
-// подготовка входных данных
-func inputParse() element {
-	var input element
+// Пример:
+// <div id="one">
+// 	<div id="two">
+// 		<p>Hello</p>
+// 	</div>
+// 	<h1>
+// </div>
 
-	var attribute attrib
-	in := os.Args[1:]
-
-	for _, arg := range in {
-		if strings.Contains(arg, "=") {
-			q := strings.Split(arg, "=")
-			attribute.name = q[0]
-			attribute.value = q[1]
-			input.attr = append(input.attr, attribute)
-			continue
-		}
-		input.name = append(input.name, arg)
+// Match позволяет сравнивать тип Attribute
+func (a Attribute) Match(j Attribute) bool {
+	if a.name == j.name && a.value == j.value {
+		return true
 	}
-	return input
+	return false
+}
+
+// String - выводит только список аргументов
+func (e Element) String() string {
+	var str string
+	for i := 0; i < len(e.attr); i++ {
+		str += fmt.Sprintf("%s=%q", e.attr[i].name, e.attr[i].value)
+	}
+	return str
+}
+
+// Match позволяет сравнивать тип Element
+func (e Element) Match(j Element) bool {
+	if e.name == j.name && len(e.attr) != 0 { // добавил проверку количества аргументов
+		for i := 0; i < len(j.attr); i++ {
+			if !e.attr[i].Match(j.attr[0]) {
+				return false
+			}
+			return true
+		}
+	} else if e.name == j.name {
+		return true // если имена совпали, а аргументов нет
+	}
+	return false
 }
 
 func main() {
-	in := inputParse()
-	fmt.Printf("%v\n", in)
-	fmt.Printf("Список элементов: %s\nАттрибуты: ", in.name)
-	for _, attr := range in.attr {
-		fmt.Printf("%s=%q ", attr.name, attr.value)
-	}
+	input := inputParse()
 
-	fmt.Println("")
+	// Тут инфа для дебага
+	// for _, e := range input {
+	// 	fmt.Printf("Список элементов: %s\nАттрибуты: ", e.name)
+
+	// 	for _, attr := range e.attr {
+	// 		fmt.Printf("%s=%q ", attr.name, attr.value)
+	// 	}
+	// 	fmt.Println("")
+	// }
 	// }
 
 	dec := xml.NewDecoder(os.Stdin)
 
-	var stack []element
+	var stack []Element
 
 	for {
 		tok, err := dec.Token()
@@ -65,73 +89,91 @@ func main() {
 
 		switch tok := tok.(type) {
 		case xml.StartElement:
-			var processingElement element
+			var currentItem Element
 
+			// запись аттрибутов элемента
 			for _, attr := range tok.Attr {
-				var attributes attrib
-				attributes.name = attr.Name.Local
-				attributes.value = attr.Value
-				processingElement.attr = append(processingElement.attr, attributes)
+				var attribute Attribute
+				attribute.name = attr.Name.Local
+				attribute.value = attr.Value
+				currentItem.attr = append(currentItem.attr, attribute)
 			}
-
-			processingElement.name = tok.Name.Local
-
-			stack = append(stack, element{name: tok.Name.Local}) // запись в стек
+			// запись имени элемента
+			currentItem.name = tok.Name.Local
+			// добавление элемента в стек
+			stack = append(stack, currentItem)
 
 		case xml.EndElement:
 			stack = stack[:len(stack)-1] // снятие со стека
 
 		case xml.CharData:
-			// принимать аттрибуты в виде div id="page"
-			if containsAll(stack, in) {
-				// fmt.Printf("%s with attr: %s=%q: : %s\n", strings.Join(stack, " "), tok.Name)
+			// сравнить содержатся ли элементы intput в stack в том же порядке
+			if containsAll(stack, input) {
+				var s []string
+				for _, item := range stack {
+					s = append(s, item.name)
+					// fmt.Printf("%s%s", item.name, item.String())
+				}
+				fmt.Printf("%s: %s\n", strings.Join(s, " "), tok)
+				// fmt.Printf("%s: %s\n", strings.Join(stack, " "), tok.Name)
 			}
 		}
 	}
 }
 
-// // type StartElement struct {
-// // 	Name Name
-// // 	Attr []Attr
-// // }
+// xml.go "div id=one" "div id=two"
+// подготовка входных данных
+func inputParse() []Element {
+	var result []Element
+	input := os.Args[1:]
 
-// // type Attr struct {
-// // 	Name  Name
-// // 	Value string
-// // }
+	for _, s := range input {
+		// объявление нового элемента и его аттрибута
+		var input Element
+		var attribute Attribute
 
-// // type Name struct {
-// // 	Space, Local string
-// // }
+		args := strings.Split(s, " ")
 
-func containsAll(stack []element, input []element) bool {
-	for _, el := range stack {
-
+		for _, arg := range args {
+			if strings.Contains(arg, "=") {
+				q := strings.Split(arg, "=")
+				attribute.name = q[0]
+				attribute.value = q[1]
+				input.attr = append(input.attr, attribute)
+				continue
+			}
+			input.name = arg
+			// нужна проверка на случай, если будет введён некорректный тег
+			// например xml.go "div div id=one". Разрешить указывать только одно имя тега.
+		}
+		result = append(result, input)
 	}
-
-	return false
-
-	// for len(y) <= len(x) {
-	// 	if len(y) == 0 { // когда в y ни чего не останется вернуть истину
-	// 		return true
-	// 	}
-	// 	if x[0] == y[0] {
-	// 		y = y[1:] // если совпали, то перейти к следующему y
-	// 	}
-	// 	x = x[1:] // перейти к следующему x
-	// }
-	// return false
+	return result
 }
 
-func compareItems(i, j element) bool {
-	if i.name == j.name {
-		if len(j.attr) == 0 {
+// Проверка, содежатся ли элементы input в stack в том же порядке.
+func containsAll(stack, input []Element) bool {
+
+	for len(input) <= len(stack) {
+		if len(input) == 0 {
 			return true
 		}
-		if len(j.attr) <= len(i.attr) {
-
+		if stack[0].Match(input[0]) {
+			input = input[1:]
 		}
+		stack = stack[1:]
 	}
-
 	return false
 }
+
+// for len(y) <= len(x) {
+// 	if len(y) == 0 { // когда в y ни чего не останется вернуть истину
+// 		return true
+// 	}
+// 	if x[0] == y[0] {
+// 		y = y[1:] // если совпали, то перейти к следующему y
+// 	}
+// 	x = x[1:] // перейти к следующему x
+// }
+// return false
+// }

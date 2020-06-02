@@ -10,9 +10,20 @@ p {
 </head>
 <body>
 
+<div id="one">
+  <div>
+    <h2>lalalalalala</h2>
+  </div>
+  <div id="two">
+   <p>Hello p!</p>
+  </div>
+  <h1>Hello h1!</h1>
+</div>
+
 <p>Every paragraph will be affected by the style.</p>
 <p id="para1">Me too!</p>
 <p>And me!</p>
 
 </body>
 </html>
+
