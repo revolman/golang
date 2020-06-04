@@ -1,3 +1,6 @@
+// Упражнение 7.17
+// go run xml.go "div id=one" div h2 < index
+// go run xml.go div h2 < index
 package main
 
 import (
