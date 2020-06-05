@@ -31,9 +31,9 @@ p {
   <h1>Hello h1!</h1>
 </div>
 
-<p>Every paragraph will be affected by the style.</p>
-<p id="para1">Me too!</p>
-<p>And me!</p>
+<p>1</p>
+<p id="p2">2</p>
+<p>3</p>
 
 </body>
 </html>

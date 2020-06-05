@@ -24,7 +24,7 @@ type Element struct {
 
 func main() {
 	// !+debug
-	file, err := os.Open("/home/revolman/git/golang/src/golang/ch7/xml_encoding/xml_ex7.18/index")
+	file, err := os.Open("index")
 	if err != nil {
 		fmt.Printf("%v\n", err)
 		os.Exit(1)
@@ -34,6 +34,7 @@ func main() {
 
 	var genTree func(*Element) // определяется, что бы можно было использовать значение-функцию рекурсивно
 	dec := xml.NewDecoder(file)
+	// dec := xml.NewDecoder(os.Stdin)
 	var rootElement = new(Element)
 
 	genTree = func(parent *Element) {
