@@ -1,3 +1,8 @@
+// Запуск с фейковыми часовыми поясами:
+// TZ=US/Eastern ./clock2 -port 8001 &
+// TZ=Asia/Tokyo ./clock2 -port 8002 &
+// TZ=Europe/London ./clock2 -port 8003 &
+
 package main
 
 import (
