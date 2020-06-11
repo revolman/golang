@@ -30,6 +30,7 @@ func main() {
 	n++
 	go func() { worklist <- os.Args[1:] }()
 
+
 	//  Паралелльное сканирование веб.
 	seen := make(map[string]bool)
 	for ; n > 0; n-- {
