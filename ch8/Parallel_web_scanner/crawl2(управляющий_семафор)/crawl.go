@@ -4,7 +4,7 @@ package main
 
 import (
 	"fmt"
-	"golang/ch5/links"
+	"github/ch5/links"
 	"log"
 	"os"
 )
@@ -26,7 +26,7 @@ func main() {
 	worklist := make(chan []string)
 	var n int // Количество ожидающих отправки в список
 
-	// Запуск с аргументами командной строки.
+	// Запуск с аргументами коммандной строки.
 	n++
 	go func() { worklist <- os.Args[1:] }()
 
