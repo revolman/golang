@@ -13,7 +13,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"gopl.io/ch5/links"
+	"golang/ch5/links"
 )
 
 var tokens = make(chan struct{}, 20)

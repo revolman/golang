@@ -4,7 +4,7 @@ package main
 
 import (
 	"fmt"
-	"github/ch5/links"
+	"golang/ch5/links"
 	"log"
 	"os"
 )

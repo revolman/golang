@@ -58,15 +58,9 @@ func main() {
 					done = true
 				}
 			}
-			// ticker.Stop()
+			
 			fmt.Fprintln(c, "write closed: timeout")
 			c.(*net.TCPConn).CloseWrite()
-
-			// for input.Scan() {
-			// 	go echo(c, input.Text(), 1*time.Second)
-			// }
-			// // NOTE: ignoring potential errors from input.Err()
-			// c.Close()
 		}(conn)
 	}
 }
