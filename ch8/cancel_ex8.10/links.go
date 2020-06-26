@@ -14,26 +14,24 @@ import (
 	"golang.org/x/net/html"
 )
 
-// Cancel это канал отмены запроса
-var Cancel = make(chan struct{})
-
 // Extract makes an HTTP GET request to the specified URL, parses
 // the response as HTML, and returns the links in the HTML document.
-func Extract(url string) ([]string, error) {
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Cancel = Cancel
-	resp, _ := http.DefaultClient.Do(req)
-	resp, err := http.Get(url)
+// Передан канал cancel и изменён способ передачи запроса.
+func Extract(url string, cancel <-chan struct{}) ([]string, error) {
+	req, err := http.NewRequest("GET", url, nil)
+	req.Cancel = cancel
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
+
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
 		return nil, fmt.Errorf("getting %s: %s", url, resp.Status)
 	}
 
 	doc, err := html.Parse(resp.Body)
-	resp.Body.Close()
 	if err != nil {
 		return nil, fmt.Errorf("parsing %s as HTML: %v", url, err)
 	}
