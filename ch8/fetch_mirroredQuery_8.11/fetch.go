@@ -26,7 +26,7 @@ func main() {
 			req.Cancel = cancel
 			resp, err := http.DefaultClient.Do(req)
 			if err != nil {
-				log.Fatal(err)
+				log.Print(err)
 			}
 			responses <- resp
 		}(url)
