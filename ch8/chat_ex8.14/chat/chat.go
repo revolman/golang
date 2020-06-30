@@ -49,7 +49,7 @@ func broadcaster() {
 			for cli := range clients {
 				cli.ch <- msg
 			}
-		case cli := <-entering:
+		case cli := <-entering: // управление переменной передаётся бродкастеру, что бы избежать состояния гонки
 			clients[cli] = true
 
 			// Оповестить вошедшего о клиентаъ онлайн
