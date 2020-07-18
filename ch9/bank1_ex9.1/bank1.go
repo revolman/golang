@@ -45,6 +45,7 @@ func teller() {
 	}
 }
 
+// test...
 func main() {
 	go teller() // запуск управляющей goroutine
 	Deposit(50)
