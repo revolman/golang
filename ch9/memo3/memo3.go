@@ -18,11 +18,6 @@ type result struct {
 	err   error
 }
 
-type entry struct {
-	res   result
-	ready chan struct{} // Закрывается, когда res готов
-}
-
 // New cоздаёт новый объект Memo
 func New(f Func) *Memo {
 	return &Memo{f: f, cache: make(map[string]result)}
