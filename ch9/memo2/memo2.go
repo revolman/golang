@@ -1,8 +1,11 @@
 package memo
 
+import "sync"
+
 // Memo кэширует результат выполняемой функции
 type Memo struct {
 	f     Func
+	mu    sync.Mutex // защита cache
 	cache map[string]result
 }
 
@@ -20,12 +23,14 @@ func New(f Func) *Memo {
 	return &Memo{f: f, cache: make(map[string]result)}
 }
 
-// Get *Memo - небезопасен для параллельности, содержит гонку данных
+// Get *Memo - безопасен с точки зрения параллельности.
 func (memo *Memo) Get(key string) (interface{}, error) {
+	memo.mu.Lock()
 	res, ok := memo.cache[key]
 	if !ok { // если в отображении нет такого значения, то его нужно записать
 		res.value, res.err = memo.f(key) // получить значение функции, которая содержится в объекте
 		memo.cache[key] = res            // записать результат в кэш
 	}
+	memo.mu.Unlock()
 	return res.value, res.err
 }
